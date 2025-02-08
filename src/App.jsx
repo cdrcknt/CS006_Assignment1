@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactFlow from 'react-flow-renderer';
 
 function App() {
-  const [num1, setNum1] = useState('899565290');
-  const [num2, setNum2] = useState('443105992');
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
   const [result, setResult] = useState('');
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
@@ -55,120 +55,26 @@ function App() {
   }
 
   const handleCalculate = () => {
+    if (!num1 || !num2) {
+      setResult('Please enter both numbers');
+      return;
+    }
     const result = findSharedDigits(parseInt(num1), parseInt(num2));
     setResult(result);
   };
 
-  const handleReset = () => {
-    setNum1('899565290');
-    setNum2('443105992');
+  const handleClear = () => {
+    setNum1('');
+    setNum2('');
     setResult('');
   };
 
-  // Updated flowchart nodes with proper shapes and top-to-bottom layout
-  const nodes = [
-    {
-      id: 'start',
-      type: 'input',
-      data: { label: 'Start' },
-      position: { x: 400, y: 0 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', borderRadius: '50px', width: '100px', height: '50px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'input',
-      type: 'default',
-      data: { label: 'Input\nNUM1, NUM2' },
-      position: { x: 350, y: 80 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'init',
-      type: 'default',
-      data: { label: 'SHARED_COUNT = 0\nDIGIT = 0' },
-      position: { x: 350, y: 170 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'check_digit',
-      type: 'default',
-      data: { label: 'DIGIT ≤ 9?' },
-      position: { x: 350, y: 260 },
-      style: { background: darkMode ? '#1F2937' : '#e6f3ff', border: '1px solid #1a73e8', width: '200px', height: '60px', transform: 'rotate(45deg)', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'process_a',
-      type: 'default',
-      data: { label: 'Process A\n(Check DIGIT in NUM1)' },
-      position: { x: 350, y: 350 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '2px dashed #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'process_b',
-      type: 'default',
-      data: { label: 'Process B\n(Check DIGIT in NUM2)' },
-      position: { x: 350, y: 440 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '2px dashed #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'check_found',
-      type: 'default',
-      data: { label: 'Found in both?' },
-      position: { x: 350, y: 530 },
-      style: { background: darkMode ? '#1F2937' : '#e6f3ff', border: '1px solid #1a73e8', width: '200px', height: '60px', transform: 'rotate(45deg)', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'print_digit',
-      type: 'default',
-      data: { label: 'Print DIGIT\nSHARED_COUNT++' },
-      position: { x: 600, y: 530 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'increment',
-      type: 'default',
-      data: { label: 'DIGIT++' },
-      position: { x: 350, y: 620 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'check_shared',
-      type: 'default',
-      data: { label: 'SHARED_COUNT = 0?' },
-      position: { x: 350, y: 710 },
-      style: { background: darkMode ? '#1F2937' : '#e6f3ff', border: '1px solid #1a73e8', width: '200px', height: '60px', transform: 'rotate(45deg)', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'print_na',
-      type: 'default',
-      data: { label: 'Print "N/A"' },
-      position: { x: 600, y: 710 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', width: '200px', height: '60px', color: darkMode ? 'white' : 'black' }
-    },
-    {
-      id: 'end',
-      type: 'output',
-      data: { label: 'End' },
-      position: { x: 400, y: 800 },
-      style: { background: darkMode ? '#374151' : '#f0f0f0', border: '1px solid #999', borderRadius: '50px', width: '100px', height: '50px', color: darkMode ? 'white' : 'black' }
+  const handleNumberInput = (e, setter) => {
+    const value = e.target.value;
+    if (value === '' || /^\d+$/.test(value)) {
+      setter(value);
     }
-  ];
-
-  const edges = [
-    { id: 'e1', source: 'start', target: 'input' },
-    { id: 'e2', source: 'input', target: 'init' },
-    { id: 'e3', source: 'init', target: 'check_digit' },
-    { id: 'e4', source: 'check_digit', target: 'process_a', label: 'Yes' },
-    { id: 'e5', source: 'check_digit', target: 'check_shared', label: 'No' },
-    { id: 'e6', source: 'process_a', target: 'process_b' },
-    { id: 'e7', source: 'process_b', target: 'check_found' },
-    { id: 'e8', source: 'check_found', target: 'print_digit', label: 'Yes' },
-    { id: 'e9', source: 'check_found', target: 'increment', label: 'No' },
-    { id: 'e10', source: 'print_digit', target: 'increment' },
-    { id: 'e11', source: 'increment', target: 'check_digit' },
-    { id: 'e12', source: 'check_shared', target: 'print_na', label: 'Yes' },
-    { id: 'e13', source: 'check_shared', target: 'end', label: 'No' },
-    { id: 'e14', source: 'print_na', target: 'end' }
-  ];
+  };
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'} p-8 transition-colors duration-200`}>
@@ -189,8 +95,9 @@ function App() {
             <input
               type="text"
               value={num1}
-              onChange={(e) => setNum1(e.target.value)}
+              onChange={(e) => handleNumberInput(e, setNum1)}
               className={`w-full p-2 border rounded ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
+              placeholder="Enter a number"
             />
           </div>
           
@@ -199,8 +106,9 @@ function App() {
             <input
               type="text"
               value={num2}
-              onChange={(e) => setNum2(e.target.value)}
+              onChange={(e) => handleNumberInput(e, setNum2)}
               className={`w-full p-2 border rounded ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
+              placeholder="Enter a number"
             />
           </div>
           
@@ -212,10 +120,10 @@ function App() {
               Calculate Shared Digits
             </button>
             <button
-              onClick={handleReset}
+              onClick={handleClear}
               className={`px-4 py-2 rounded ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
             >
-              Reset
+              Clear
             </button>
           </div>
           
@@ -299,11 +207,7 @@ END`}
         <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-md`}>
           <h2 className="text-xl font-bold mb-4">Flowchart</h2>
           <div style={{ height: '900px' }}>
-            <ReactFlow 
-              nodes={nodes}
-              edges={edges}
-              fitView
-            />
+            <ReactFlow />
           </div>
         </div>
       </div>
