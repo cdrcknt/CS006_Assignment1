@@ -222,88 +222,69 @@ function App() {
 
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-xl font-bold mb-4">Algorithm Steps</h2>
-          <ol className="list-decimal pl-6">
-            <li>Start the program</li>
-            <li>Input two numbers (num1 and num2)</li>
-            <li>Initialize variables:
-              <ul className="list-disc pl-6">
-                <li>digit = 0</li>
-                <li>sharedDigits = empty string</li>
-                <li>hasShared = false</li>
-              </ul>
-            </li>
-            <li>While digit ≤ 9:
-              <ul className="list-disc pl-6">
-                <li>Check if digit exists in num1</li>
-                <li>Check if digit exists in num2</li>
-                <li>If digit exists in both numbers:
-                  <ul className="list-disc pl-6">
-                    <li>Add digit to sharedDigits</li>
-                    <li>Set hasShared to true</li>
-                  </ul>
-                </li>
-                <li>Increment digit</li>
-              </ul>
-            </li>
-            <li>If hasShared is true:
-              <ul className="list-disc pl-6">
-                <li>Display sharedDigits</li>
-              </ul>
-            </li>
-            <li>Else:
-              <ul className="list-disc pl-6">
-                <li>Display "N/A"</li>
-              </ul>
-            </li>
-            <li>End program</li>
-          </ol>
+          <div className="pl-6">
+            <p>Step 1: Input NUM1, NUM2</p>
+            <p>Step 2: Set SHARED_COUNT = 0</p>
+            <p>Step 3: For each DIGIT from 0 to 9</p>
+            <div className="pl-8">
+              <p>if (DIGIT exists in NUM1) then</p>
+              <div className="pl-8">
+                <p>if (DIGIT exists in NUM2) then</p>
+                <div className="pl-8">
+                  <p>Print DIGIT</p>
+                  <p>SHARED_COUNT = SHARED_COUNT + 1</p>
+                </div>
+                <p>endif</p>
+              </div>
+              <p>endif</p>
+            </div>
+            <p>Step 4: if (SHARED_COUNT = 0) then</p>
+            <div className="pl-8">
+              <p>Print "N/A"</p>
+            </div>
+            <p>Step 5: End</p>
+          </div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-xl font-bold mb-4">Pseudocode</h2>
           <pre className="bg-gray-50 p-4 rounded overflow-x-auto">
 {`BEGIN
-    INPUT num1, num2
-    
-    digit ← 0
-    sharedDigits ← ""
-    hasShared ← false
-    
-    WHILE digit ≤ 9 DO
-        foundInFirst ← false
-        foundInSecond ← false
-        tempN1 ← num1
-        tempN2 ← num2
-        
-        WHILE tempN1 > 0 DO
-            IF tempN1 MOD 10 = digit THEN
-                foundInFirst ← true
-                BREAK
-            END IF
-            tempN1 ← tempN1 DIV 10
-        END WHILE
-        
-        WHILE tempN2 > 0 DO
-            IF tempN2 MOD 10 = digit THEN
-                foundInSecond ← true
-                BREAK
-            END IF
-            tempN2 ← tempN2 DIV 10
-        END WHILE
-        
-        IF foundInFirst AND foundInSecond THEN
-            sharedDigits ← sharedDigits + digit + " "
-            hasShared ← true
-        END IF
-        
-        digit ← digit + 1
-    END WHILE
-    
-    IF hasShared THEN
-        PRINT sharedDigits
-    ELSE
+    Input NUM1, NUM2
+    SHARED_COUNT ← 0
+    DIGIT ← 0
+
+    WHILE DIGIT ≤ 9 DO
+        TEMP1 ← NUM1
+        TEMP2 ← NUM2
+        FOUND1 ← FALSE
+        FOUND2 ← FALSE
+
+        WHILE TEMP1 > 0 DO
+            IF (TEMP1 MOD 10) = DIGIT THEN
+                FOUND1 ← TRUE
+            ENDIF
+            TEMP1 ← TEMP1 DIV 10
+        ENDWHILE
+
+        WHILE TEMP2 > 0 DO
+            IF (TEMP2 MOD 10) = DIGIT THEN
+                FOUND2 ← TRUE
+            ENDIF
+            TEMP2 ← TEMP2 DIV 10
+        ENDWHILE
+
+        IF FOUND1 = TRUE AND FOUND2 = TRUE THEN
+            PRINT DIGIT
+            SHARED_COUNT ← SHARED_COUNT + 1
+        ENDIF
+
+        DIGIT ← DIGIT + 1
+    ENDWHILE
+
+    IF SHARED_COUNT = 0 THEN
         PRINT "N/A"
-    END IF
+    ENDIF
 END`}
           </pre>
         </div>
